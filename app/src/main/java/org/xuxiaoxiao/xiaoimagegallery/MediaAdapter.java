@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.ArrayList;
 
 /**
@@ -21,7 +19,6 @@ import java.util.ArrayList;
  */
 
 public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder> {
-//    ArrayList<Model_images> mediaFileInfos = new ArrayList<>();
     ArrayList<MediaFolderModel> mediaFolderModels = new ArrayList<>();
 
     Context context;
@@ -33,7 +30,6 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
     @Override
     public MediaViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.list_row, null);
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.media_floder, parent, false);
         return new MediaViewHolder(view);
@@ -41,16 +37,15 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
     @Override
     public void onBindViewHolder(MediaViewHolder holder, int position) {
-        holder.folderName.setText(mediaFolderModels.get(position).getFolderName());
-//        holder.tv_foldersize.setText(mediaFileInfos.get(position).getAl_imagepath().size()+"");
-
+        String mediaFolderName = mediaFolderModels.get(position).getFolderName();
+        holder.folderName.setText(mediaFolderName);
+        holder.itemSum.setText(String.valueOf(mediaFolderModels.get(position).getMediaItemSum()));
 
         Glide.with(context).load("file://" + mediaFolderModels.get(position).getFirstItemImage())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.folderImage);
-//        Log.d("WQWQ", "file://" + mediaFileInfos.get(position).getAl_imagepath().get(0));
-//        holder.bind(mediaFileInfos.get(position).getAl_imagepath());
+            holder.bind(mediaFolderName);
     }
 
     @Override
@@ -61,24 +56,26 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
     public class MediaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView folderImage;
         TextView folderName;
-        ArrayList<String> mediaItems = new ArrayList<>();
+        TextView itemSum;
+        String mediaFolderName;
 
         public MediaViewHolder(View itemView) {
             super(itemView);
             folderImage = (ImageView) itemView.findViewById(R.id.media_floder_image_view);
             folderName = (TextView) itemView.findViewById(R.id.media_folder_name_text_view);
+            itemSum = (TextView)itemView.findViewById(R.id.media_item_sum_text_view);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(context,MediaItemActiviey.class);
+            Intent intent = MediaItemActiviey.newIntent(context,mediaFolderName);
             context.startActivity(intent);
-            EventBus.getDefault().post(new SendMediaItem(mediaItems));
         }
 
-        public void bind(ArrayList<String> al_imagepath) {
-            this.mediaItems = al_imagepath;
+
+        public void bind(String mediaFolderName) {
+            this.mediaFolderName = mediaFolderName;
         }
     }
 }

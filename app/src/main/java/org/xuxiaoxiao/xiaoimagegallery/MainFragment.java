@@ -1,6 +1,7 @@
 package org.xuxiaoxiao.xiaoimagegallery;
 
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -42,6 +43,10 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_media_folder, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.media_folder_recycler_view);
+        Drawable divider = getResources().getDrawable(R.drawable.item_divider);
+
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration(divider));
+
         linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         new MediaAsyncTask().execute();

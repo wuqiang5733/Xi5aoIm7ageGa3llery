@@ -1,5 +1,7 @@
 package org.xuxiaoxiao.xiaoimagegallery;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.widget.Toast;
@@ -15,10 +17,25 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
 public class MediaItemActiviey extends UniversalFragmentActivity {
 
+    private static final String MEDIA_FOLDER_NAME =
+            "org.xuxiaoxiao.android.mediaFolderName";
+
+    public static Intent newIntent(Context packageContext, String mediaFolderName) {
+        // 可以在其它地方调用的，能够传递数据的 Intent
+        Intent intent = new Intent(packageContext, MediaItemActiviey.class);
+        intent.putExtra(MEDIA_FOLDER_NAME, mediaFolderName);
+        return intent;
+    }
+
     @Override
     protected Fragment createFragment() {
-        return new MediaItemFragment();
+        // 获得 Intent 的数据
+        String mediaFolderName = getIntent()
+                .getStringExtra(MEDIA_FOLDER_NAME);
+        // 把数据传给自己 Hold 的 Fragment
+        return MediaItemFragment.newInstance(mediaFolderName);
     }
+
 
     // 下面是跟权限有关的
     @Override
