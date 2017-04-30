@@ -53,7 +53,7 @@ public class MediaItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_media_item, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.media_item_recycler_view);
-        gridLayoutManager = new GridLayoutManager(getActivity(), 2);
+        gridLayoutManager = new GridLayoutManager(getActivity(), 3);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
         new MediaAsyncTask().execute();

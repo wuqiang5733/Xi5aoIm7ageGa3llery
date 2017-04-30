@@ -39,7 +39,6 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
 
         Glide.with(context).load("file://" + mediaItems.get(position))
                 .centerCrop()
-                .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.imageItem);
