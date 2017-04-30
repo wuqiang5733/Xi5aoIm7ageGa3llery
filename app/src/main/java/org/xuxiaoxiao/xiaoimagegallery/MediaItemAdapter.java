@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -53,11 +52,11 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
 
     public class MediaItemViewHolder extends RecyclerView.ViewHolder{
         ImageView imageItem;
-        TextView imagePath;
+//        TextView imagePath;
         public MediaItemViewHolder(View itemView) {
             super(itemView);
             imageItem = (ImageView)itemView.findViewById(R.id.image_item);
-            imagePath = (TextView)itemView.findViewById(R.id.item_path_text_view);
+//            imagePath = (TextView)itemView.findViewById(R.id.item_path_text_view);
         }
     }
 }
