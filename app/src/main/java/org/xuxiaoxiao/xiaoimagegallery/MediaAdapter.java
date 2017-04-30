@@ -42,6 +42,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
         holder.itemSum.setText(String.valueOf(mediaFolderModels.get(position).getMediaItemSum()));
 
         Glide.with(context).load("file://" + mediaFolderModels.get(position).getFirstItemImage())
+                .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.folderImage);

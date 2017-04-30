@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/media_floder_image_view"
-        android:layout_width="80dp"
-        android:layout_height="50dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_alignParentTop="true"
         android:layout_gravity="center_horizontal"
         android:scaleType="fitCenter"
