@@ -76,6 +76,7 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
         public void bind(String mediaFolderName) {
             this.mediaFolderName = mediaFolderName;
+//            Log.d("WQWQ",mediaFolderName);
         }
     }
 }

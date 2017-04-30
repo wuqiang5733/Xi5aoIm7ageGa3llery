@@ -32,7 +32,7 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
 
     @Override
     public void onBindViewHolder(MediaItemViewHolder holder, int position) {
-        holder.imagePath.setText("4567890");
+        holder.imagePath.setText(mediaItems.get(position));
 
     }
 

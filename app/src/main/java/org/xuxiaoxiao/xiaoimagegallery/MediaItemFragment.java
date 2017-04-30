@@ -1,6 +1,10 @@
 package org.xuxiaoxiao.xiaoimagegallery;
 
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,6 +13,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import java.util.ArrayList;
 
 /**
  * Created by WuQiang on 2017/4/30.
@@ -37,41 +43,21 @@ public class MediaItemFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mediaFolderName = getArguments().getString(MEDIA_FOLDER_NAME);
+//        Log.d("WQWQ",mediaFolderName);
+
 
     }
 
-    /*
-        @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-
-            EventBus.getDefault().register(this);
-        }
-
-        @Override
-        public void onDetach() {
-            EventBus.getDefault().unregister(this);
-
-            super.onDetach();
-        }
-        @Subscribe(threadMode = ThreadMode.MAIN)
-        public void onReceiveMediaItem(SendMediaItem event) {
-            this.mediaItems = event.getMediaItems();
-            Log.d("WQWQ","我收到啦");
-        }
-        */
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_media_item,container,false);
-        recyclerView = (RecyclerView)view.findViewById(R.id.media_item_recycler_view);
+        View view = inflater.inflate(R.layout.fragment_media_item, container, false);
+        recyclerView = (RecyclerView) view.findViewById(R.id.media_item_recycler_view);
         gridLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setHasFixedSize(true);
-//        mediaItemAdapter = new MediaItemAdapter(getActivity(),mediaItems);
-        recyclerView.setAdapter(mediaItemAdapter);
-
-        sendItemButton = (Button)view.findViewById(R.id.send_item_button);
+        new MediaAsyncTask().execute();
+        sendItemButton = (Button) view.findViewById(R.id.send_item_button);
         sendItemButton.setText(mediaFolderName);
         sendItemButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +65,56 @@ public class MediaItemFragment extends Fragment {
 
             }
         });
+        fetchMediaItems();
         return view;
-
     }
+    public class MediaAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
+//        ArrayList<MediaFolderModel> mediaFolderModels = new ArrayList<>();
+
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... params) {
+            return fetchMediaItems();
+//            return mediaFolderModels;
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<String> mediaItems) {
+//            super.onPostExecute(mediaFolderModels);
+            mediaItemAdapter = new MediaItemAdapter(getActivity(), mediaItems);
+            recyclerView.setAdapter(mediaItemAdapter);
+        }
+    }
+
+    public ArrayList<String> fetchMediaItems() {
+
+        ArrayList<String> mediaItems = new ArrayList<>();
+        Uri uri;
+        Cursor cursor;
+        int column_index_data;
+
+        String absolutePathOfImage = null;
+        String tempMediaFolderName = null;
+        uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+
+        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
+
+        // Defines a string to contain the selection clause
+        String mSelectionClause = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " = ?";
+        // Initializes an array to contain selection arguments
+        String[] mSelectionArgs = {mediaFolderName};
+
+        String orderBy = MediaStore.Images.Media.DATE_TAKEN;
+
+        cursor = getActivity().getContentResolver().query(uri, projection, mSelectionClause, mSelectionArgs, orderBy + " DESC");
+        while (cursor.moveToNext()) {
+            column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+            absolutePathOfImage = cursor.getString(column_index_data);  // 路径
+//            Log.d("WQWQ", absolutePathOfImage);
+            mediaItems.add(absolutePathOfImage);
+        }
+        cursor.close();
+        return mediaItems;
+    }
+
 }

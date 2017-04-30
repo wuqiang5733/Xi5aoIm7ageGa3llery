@@ -32,6 +32,8 @@ public class MediaItemActiviey extends UniversalFragmentActivity {
         // 获得 Intent 的数据
         String mediaFolderName = getIntent()
                 .getStringExtra(MEDIA_FOLDER_NAME);
+//                    Log.d("WQWQ",mediaFolderName);
+
         // 把数据传给自己 Hold 的 Fragment
         return MediaItemFragment.newInstance(mediaFolderName);
     }
