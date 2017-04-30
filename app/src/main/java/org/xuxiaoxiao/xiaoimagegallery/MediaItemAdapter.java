@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+
 import java.util.ArrayList;
 
 /**
@@ -33,6 +36,12 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
     @Override
     public void onBindViewHolder(MediaItemViewHolder holder, int position) {
         holder.imagePath.setText(mediaItems.get(position));
+
+        Glide.with(context).load("file://" + mediaItems.get(position))
+                .diskCacheStrategy(DiskCacheStrategy.NONE)
+                .skipMemoryCache(true)
+                .into(holder.imageItem);
+//        holder.bind(mediaFolderName);
 
     }
 
