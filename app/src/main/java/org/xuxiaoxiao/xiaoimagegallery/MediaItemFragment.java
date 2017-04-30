@@ -97,7 +97,8 @@ public class MediaItemFragment extends Fragment {
         String tempMediaFolderName = null;
         uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
+        String[] projection =  {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
+//        String[] mProjection = {MediaStore.Images.Thumbnails.DATA};
 
         // Defines a string to contain the selection clause
         String mSelectionClause = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " = ?";

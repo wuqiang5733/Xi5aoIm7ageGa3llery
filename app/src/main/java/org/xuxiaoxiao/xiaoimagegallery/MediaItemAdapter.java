@@ -35,9 +35,11 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
 
     @Override
     public void onBindViewHolder(MediaItemViewHolder holder, int position) {
-        holder.imagePath.setText(mediaItems.get(position));
+//        holder.imagePath.setText(mediaItems.get(position));
 
         Glide.with(context).load("file://" + mediaItems.get(position))
+                .centerCrop()
+                .thumbnail(0.5f)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.imageItem);
