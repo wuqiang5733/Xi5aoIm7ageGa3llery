@@ -21,11 +21,13 @@ import java.util.ArrayList;
  */
 
 public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder> {
-    ArrayList<Model_images> mediaFileInfos = new ArrayList<>();
+//    ArrayList<Model_images> mediaFileInfos = new ArrayList<>();
+    ArrayList<MediaFolderModel> mediaFolderModels = new ArrayList<>();
+
     Context context;
 
-    public MediaAdapter(Context context, ArrayList<Model_images> mediaFileInfos) {
-        this.mediaFileInfos = mediaFileInfos;
+    public MediaAdapter(Context context, ArrayList<MediaFolderModel> mediaFolderModels) {
+        this.mediaFolderModels = mediaFolderModels;
         this.context = context;
     }
 
@@ -39,21 +41,21 @@ public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHol
 
     @Override
     public void onBindViewHolder(MediaViewHolder holder, int position) {
-        holder.folderName.setText(mediaFileInfos.get(position).getStr_folder());
+        holder.folderName.setText(mediaFolderModels.get(position).getFolderName());
 //        holder.tv_foldersize.setText(mediaFileInfos.get(position).getAl_imagepath().size()+"");
 
 
-        Glide.with(context).load("file://" + mediaFileInfos.get(position).getAl_imagepath().get(0))
+        Glide.with(context).load("file://" + mediaFolderModels.get(position).getFirstItemImage())
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.folderImage);
 //        Log.d("WQWQ", "file://" + mediaFileInfos.get(position).getAl_imagepath().get(0));
-        holder.bind(mediaFileInfos.get(position).getAl_imagepath());
+//        holder.bind(mediaFileInfos.get(position).getAl_imagepath());
     }
 
     @Override
     public int getItemCount() {
-        return mediaFileInfos.size();
+        return mediaFolderModels.size();
     }
 
     public class MediaViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
