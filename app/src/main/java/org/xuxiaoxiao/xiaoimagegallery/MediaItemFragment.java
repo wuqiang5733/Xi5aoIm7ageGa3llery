@@ -115,8 +115,11 @@ public class MediaItemFragment extends Fragment {
         String orderBy = MediaStore.Images.Media.DATE_TAKEN;
 
         cursor = getActivity().getContentResolver().query(uri, projection, mSelectionClause, mSelectionArgs, orderBy + " DESC");
+        int totalItemNum = cursor.getCount();
+        // 预防比如新手机上的照片不够25张的情况
+        int latestIndex = totalItemNum > 25 ? 25:totalItemNum;
         if (mediaFolderName.equals("latest") ) {
-            for (int i = 0; i < 25; i++) {
+            for (int i = 0; i < latestIndex; i++) {
                 cursor.moveToPosition(i);
                 column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
                 absolutePathOfImage = cursor.getString(column_index_data);  // 路径
