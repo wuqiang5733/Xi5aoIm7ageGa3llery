@@ -39,7 +39,7 @@ public class MediaItemFragment extends Fragment {
     private List<String> mediaItems =
             Collections.synchronizedList(new ArrayList<String>());
     //    ArrayList<String> mediaItems;
-    boolean[] thumbnailsselection;
+//    boolean[] thumbnailsselection;
     private static final String MEDIA_FOLDER_NAME =
             "org.xuxiaoxiao.MediaFolderName";
 
@@ -65,7 +65,7 @@ public class MediaItemFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        thumbnailsselection = new boolean[mediaItems.size()];
+//        thumbnailsselection = new boolean[mediaItems.size()];
     }
 
     @Nullable
@@ -87,7 +87,7 @@ public class MediaItemFragment extends Fragment {
                 getActivity().finish();
             }
         });
-        fetchMediaItems();
+//        fetchMediaItems();
         return view;
     }
 
@@ -102,7 +102,7 @@ public class MediaItemFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            thumbnailsselection = new boolean[mediaItems.size()];
+//            thumbnailsselection = new boolean[mediaItems.size()];
         }
     }
 
@@ -133,8 +133,9 @@ public class MediaItemFragment extends Fragment {
 
         String orderBy = MediaStore.Images.Media.DATE_TAKEN;
 
-        cursor = getActivity().getContentResolver().query(uri, projection, mSelectionClause, mSelectionArgs, orderBy + " DESC");
+        cursor = getActivity().getContentResolver().query(uri, projection, mSelectionClause, mSelectionArgs, orderBy+ " DESC");
         int totalItemNum = cursor.getCount();
+        Log.d("WQWQ",String.valueOf(totalItemNum));
         // 预防比如新手机上的照片不够25张的情况
         int latestIndex = totalItemNum > 25 ? 25 : totalItemNum;
         if (mediaFolderName.equals("latest")) {
