@@ -18,12 +18,12 @@ import java.util.ArrayList;
  * Created by WuQiang on 2017/4/30.
  */
 
-public class MediaAdapter extends RecyclerView.Adapter<MediaAdapter.MediaViewHolder> {
+public class MediaFolderAdapter extends RecyclerView.Adapter<MediaFolderAdapter.MediaViewHolder> {
     ArrayList<MediaFolderModel> mediaFolderModels = new ArrayList<>();
 
     Context context;
 
-    public MediaAdapter(Context context, ArrayList<MediaFolderModel> mediaFolderModels) {
+    public MediaFolderAdapter(Context context, ArrayList<MediaFolderModel> mediaFolderModels) {
         this.mediaFolderModels = mediaFolderModels;
         this.context = context;
     }

@@ -20,11 +20,11 @@ import java.util.ArrayList;
  * Created by WuQiang on 2017/4/30.
  */
 
-public class MainFragment extends Fragment {
+public class MediaFolderFragment extends Fragment {
     boolean boolean_folder;
 
     RecyclerView recyclerView;
-    MediaAdapter mediaAdapter;
+    MediaFolderAdapter mediaAdapter;
     LinearLayoutManager linearLayoutManager;
 //    ArrayList<Model_images> mediaFileInfos = new ArrayList<>();
 
@@ -65,7 +65,7 @@ public class MainFragment extends Fragment {
         @Override
         protected void onPostExecute(ArrayList<MediaFolderModel> mediaFolderModels) {
 //            super.onPostExecute(mediaFolderModels);
-            mediaAdapter = new MediaAdapter(getActivity(), mediaFolderModels);
+            mediaAdapter = new MediaFolderAdapter(getActivity(), mediaFolderModels);
             recyclerView.setAdapter(mediaAdapter);
         }
     }

@@ -9,11 +9,11 @@ import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class MainActivity extends UniversalFragmentActivity {
+public class MediaFolderActivity extends UniversalFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return new MainFragment();
+        return new MediaFolderFragment();
     }
 
     // 下面是跟权限有关的
