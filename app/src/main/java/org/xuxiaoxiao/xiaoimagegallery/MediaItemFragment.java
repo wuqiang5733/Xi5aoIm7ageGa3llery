@@ -225,7 +225,8 @@ public class MediaItemFragment extends Fragment {
 
                 }
             });
-            holder.itemCheckBox.setChecked(thumbnailsselection[position]);
+            // 下面这一句单选的时候用不上
+//            holder.itemCheckBox.setChecked(thumbnailsselection[position]);
 
         }
 
