@@ -68,6 +68,7 @@ public class MediaItemFragment extends Fragment {
         fetchMediaItems();
         return view;
     }
+
     public class MediaAsyncTask extends AsyncTask<Void, Void, ArrayList<String>> {
 //        ArrayList<MediaFolderModel> mediaFolderModels = new ArrayList<>();
 
@@ -97,23 +98,41 @@ public class MediaItemFragment extends Fragment {
         String tempMediaFolderName = null;
         uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
 
-        String[] projection =  {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
+        String[] projection = {MediaStore.MediaColumns.DATA, MediaStore.Images.Media.BUCKET_DISPLAY_NAME};
 //        String[] mProjection = {MediaStore.Images.Thumbnails.DATA};
-
         // Defines a string to contain the selection clause
         String mSelectionClause = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " = ?";
+        if (mediaFolderName.equals("latest") ) {
+            mSelectionClause = null;
+        }
+
         // Initializes an array to contain selection arguments
         String[] mSelectionArgs = {mediaFolderName};
+        if (mediaFolderName.equals("latest") ) {
+            mSelectionArgs = null;
+        }
 
         String orderBy = MediaStore.Images.Media.DATE_TAKEN;
 
         cursor = getActivity().getContentResolver().query(uri, projection, mSelectionClause, mSelectionArgs, orderBy + " DESC");
-        while (cursor.moveToNext()) {
-            column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-            absolutePathOfImage = cursor.getString(column_index_data);  // 路径
+        if (mediaFolderName.equals("latest") ) {
+            for (int i = 0; i < 25; i++) {
+                cursor.moveToPosition(i);
+                column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                absolutePathOfImage = cursor.getString(column_index_data);  // 路径
 //            Log.d("WQWQ", absolutePathOfImage);
-            mediaItems.add(absolutePathOfImage);
+                mediaItems.add(absolutePathOfImage);
+            }
+
+        } else {
+            while (cursor.moveToNext()) {
+                column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
+                absolutePathOfImage = cursor.getString(column_index_data);  // 路径
+//            Log.d("WQWQ", absolutePathOfImage);
+                mediaItems.add(absolutePathOfImage);
+            }
         }
+
         cursor.close();
         return mediaItems;
     }
