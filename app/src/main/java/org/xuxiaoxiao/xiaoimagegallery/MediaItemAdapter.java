@@ -1,6 +1,8 @@
 package org.xuxiaoxiao.xiaoimagegallery;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,13 +37,13 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
     @Override
     public void onBindViewHolder(MediaItemViewHolder holder, int position) {
 //        holder.imagePath.setText(mediaItems.get(position));
-
-        Glide.with(context).load("file://" + mediaItems.get(position))
+        String itemPath =  mediaItems.get(position);
+        Glide.with(context).load("file://" + itemPath)
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
                 .skipMemoryCache(true)
                 .into(holder.imageItem);
-//        holder.bind(mediaFolderName);
+        holder.bind(itemPath);
 
     }
 
@@ -50,13 +52,27 @@ public class MediaItemAdapter extends RecyclerView.Adapter <MediaItemAdapter.Med
         return mediaItems.size();
     }
 
-    public class MediaItemViewHolder extends RecyclerView.ViewHolder{
+    public class MediaItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         ImageView imageItem;
-//        TextView imagePath;
+        String itemPath;
+        //        TextView imagePath;
         public MediaItemViewHolder(View itemView) {
             super(itemView);
             imageItem = (ImageView)itemView.findViewById(R.id.image_item);
 //            imagePath = (TextView)itemView.findViewById(R.id.item_path_text_view);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.parse("file://" + itemPath), "image/*");
+            context.startActivity(intent);
+        }
+
+        public void bind(String itemPath) {
+            this.itemPath = itemPath;
         }
     }
 }
