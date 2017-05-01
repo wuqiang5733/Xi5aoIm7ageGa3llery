@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class MediaItemFragment extends Fragment {
     MediaItemAdapter mediaItemAdapter;
     Button sendItemButton;
     String mediaFolderName;
-
+    int lastSelectItem = -1;
     private List<String> mediaItems =
             Collections.synchronizedList(new ArrayList<String>());
     //    ArrayList<String> mediaItems;
@@ -200,13 +201,22 @@ public class MediaItemFragment extends Fragment {
                     // TODO Auto-generated method stub
                     CheckBox cb = (CheckBox) v;
                     int id = cb.getId();
-                    if (thumbnailsselection[id]) {
-                        cb.setChecked(false);
-                        thumbnailsselection[id] = false;
+                    if (cb.isChecked()) {       // 如果以前已经选中过
+                        cb.setChecked(true);            // 去掉钩
+                        Log.d("WQWQ","if");
+
+                        CheckBox tempButton = (CheckBox) getActivity().findViewById(lastSelectItem);
+                        if (tempButton != null) {
+                            tempButton.setChecked(false);
+                        }
+
                     } else {
-                        cb.setChecked(true);
-                        thumbnailsselection[id] = true;
+                        Log.d("WQWQ","else");
+                        cb.setChecked(false);      // 打上钩
+
                     }
+                    lastSelectItem = id;
+
                 }
             });
             holder.itemCheckBox.setChecked(thumbnailsselection[position]);
