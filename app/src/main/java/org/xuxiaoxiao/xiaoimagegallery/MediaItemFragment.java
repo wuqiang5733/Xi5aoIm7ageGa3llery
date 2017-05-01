@@ -203,19 +203,25 @@ public class MediaItemFragment extends Fragment {
                     int id = cb.getId();
                     if (cb.isChecked()) {       // 如果以前已经选中过
                         cb.setChecked(true);            // 去掉钩
-                        Log.d("WQWQ","if");
+//                        Log.d("WQWQ", "if");
+                        Log.d("WQWQ_if_id", String.valueOf(id));
 
                         CheckBox tempButton = (CheckBox) getActivity().findViewById(lastSelectItem);
                         if (tempButton != null) {
                             tempButton.setChecked(false);
                         }
+                        lastSelectItem = id;
 
                     } else {
-                        Log.d("WQWQ","else");
+//                        Log.d("WQWQ", "else");
                         cb.setChecked(false);      // 打上钩
-
+                        if (lastSelectItem == id) {
+                            lastSelectItem = -1;
+                        }
+                        Log.d("WQWQ_else_id", String.valueOf(id));
                     }
-                    lastSelectItem = id;
+
+                    Log.d("WQWQ_lastSelectItem", String.valueOf(lastSelectItem));
 
                 }
             });
